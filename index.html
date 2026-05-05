@@ -5,117 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Story | Netflix</title>
     <style>
-        :root {
-            --netflix-red: #E50914;
-            --bg-black: #141414;
-        }
+        :root { --netflix-red: #E50914; --bg-black: #000000; }
+        body { background-color: var(--bg-black); color: white; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
 
-        body {
-            background-color: #000;
-            color: white;
-            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
+        /* --- INTRO LOGO ANIMATION --- */
+        #intro-loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; display: flex; align-items: center; justify-content: center; z-index: 9999; }
+        .netflix-logo { font-size: 120px; color: var(--netflix-red); font-weight: bold; font-family: 'Arial Black', sans-serif; animation: zoomAndFade 3.5s forwards; }
+        @keyframes zoomAndFade { 0% { transform: scale(0.5); opacity: 0; } 40% { transform: scale(1.1); opacity: 1; } 80% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(5); opacity: 0; } }
 
-        /* --- 1. PROFILE SELECTION --- */
-        #profile-screen {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background: #000;
-            transition: opacity 0.6s ease;
-        }
-
+        /* --- PROFILE SELECTION --- */
+        #profile-screen { display: none; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #000; animation: fadeIn 1s forwards; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .profile-container { display: flex; gap: 25px; margin-top: 30px; flex-wrap: wrap; justify-content: center; }
-        
-        .profile { cursor: pointer; text-align: center; width: 150px; }
-        .profile img {
-            width: 130px; height: 130px; border-radius: 4px;
-            border: 3px solid transparent; object-fit: cover;
-        }
+        .profile { cursor: pointer; text-align: center; width: 140px; }
+        .profile img { width: 130px; height: 130px; border-radius: 4px; border: 3px solid transparent; object-fit: cover; }
         .profile:hover img { border-color: white; }
         .profile p { color: #808080; margin-top: 10px; font-size: 1.1rem; }
         .profile:hover p { color: white; }
 
-        /* --- 2. MAIN HOMEPAGE --- */
-        #main-content { display: none; background: var(--bg-black); min-height: 100vh; }
-        
+        /* --- MAIN HOMEPAGE --- */
+        #main-content { display: none; background: #141414; min-height: 100vh; }
         .hero {
             height: 85vh;
-            /* EDIT HERE: Main Background Image (The "Poster" for your relationship) */
-            background: linear-gradient(to top, var(--bg-black) 5%, transparent 50%), 
+            /* STEP 1: MAIN BACKGROUND PHOTO pulled from file */
+            background: linear-gradient(to top, #141414 5%, transparent 50%), 
                         linear-gradient(to right, rgba(0,0,0,0.8), transparent 50%),
-                        url('https://images.unsplash.com/photo-1516589174184-c68526614488?q=80&w=1000'); 
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 5%;
+                        url('hero_bg.png'); 
+            background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; padding: 0 5%;
         }
-
         .title-card { font-size: clamp(3rem, 10vw, 5rem); margin: 0; font-weight: bold; }
-        .hero-meta { font-size: 1.2rem; margin: 15px 0; color: #aaa; }
-        .hero-desc { max-width: 500px; line-height: 1.5; font-size: 1.1rem; margin-bottom: 25px; }
+        .btn-play { background: white; color: black; border: none; padding: 12px 35px; font-size: 1.2rem; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.2s; width: fit-content; }
 
-        .btn-play {
-            background: white; color: black; border: none; padding: 12px 35px;
-            font-size: 1.2rem; font-weight: bold; cursor: pointer;
-            border-radius: 4px; transition: 0.2s; display: flex; align-items: center; gap: 10px;
-        }
-        .btn-play:hover { background: rgba(255,255,255,0.7); }
-
-        /* Gallery Row */
-        .row { padding: 40px 5%; }
-        .row h2 { font-size: 1.5rem; margin-bottom: 15px; }
-        .thumbnail-container { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; }
-        .thumbnail-container img {
-            min-width: 240px; height: 135px; background: #333; border-radius: 4px;
-            object-fit: cover; transition: transform 0.3s;
-        }
-        .thumbnail-container img:hover { transform: scale(1.05); }
-
-        /* --- 3. ENDING CREDITS --- */
-        #credits-screen {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: black; z-index: 1000; justify-content: center; overflow: hidden;
-        }
-        .credits-wrapper {
-            position: absolute; top: 100%; width: 100%; text-align: center;
-            animation: scroll 20s linear forwards;
-        }
-        @keyframes scroll {
-            0% { top: 100%; }
-            100% { top: -160%; }
-        }
+        /* --- ENDING CREDITS --- */
+        #credits-screen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: black; z-index: 1000; align-items: center; justify-content: center; overflow: hidden; }
+        .credits-wrapper { position: absolute; top: 100%; width: 100%; text-align: center; animation: scroll 28s linear forwards; }
+        @keyframes scroll { 0% { top: 100%; } 100% { top: -280%; } }
+        
+        .credit-photo { width: 250px; height: 250px; object-fit: cover; border-radius: 10px; margin-bottom: 50px; border: 2px solid #333; }
         .credit-row { margin-bottom: 40px; }
-        .role { color: #808080; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 3px; margin-bottom: 8px; }
-        .name { font-size: 2rem; font-weight: bold; }
+        .role { color: #808080; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 3px; }
+        .name { font-size: 2rem; font-weight: bold; margin-top: 5px; }
     </style>
 </head>
 <body>
 
-    <audio id="tudum">
-        <source src="https://www.myinstants.com/media/sounds/netflix-tudum.mp3" type="audio/mpeg">
-    </audio>
+    <audio id="tudum"><source src="https://www.myinstants.com/media/sounds/netflix-tudum.mp3" type="audio/mpeg"></audio>
+
+    <div id="intro-loader"><div class="netflix-logo">N</div></div>
 
     <div id="profile-screen">
-        <h1 style="font-size: 3rem; font-weight: 500; margin-bottom: 20px;">Who's watching?</h1>
+        <h1 style="font-size: 3rem; font-weight: 400; margin-bottom: 20px;">Who's watching?</h1>
         <div class="profile-container">
+            
             <div class="profile" onclick="startApp()">
-                <img src="https://via.placeholder.com/150/0080ff" alt="Month 1">
+                <img src="profile_one_month.png" alt="1 Month">
                 <p>1 Month</p>
             </div>
+
             <div class="profile" onclick="startApp()">
-                <img src="https://via.placeholder.com/150/ff0080" alt="Month 6">
+                <img src="profile_six_months.png" alt="6 Months">
                 <p>6 Months</p>
             </div>
+
             <div class="profile" onclick="startApp()">
-                <img src="https://via.placeholder.com/150/ffcc00" alt="1 Year">
+                <img src="profile_one_year.png" alt="1 Year">
                 <p>1 Year</p>
             </div>
         </div>
@@ -123,58 +76,36 @@
 
     <div id="main-content">
         <div class="hero">
-            <h1 class="title-card">The Life of Us</h1>
-            <div class="hero-meta">2024 | Season 1 | Soulmates</div>
-            <p class="hero-desc">
-                A heartwarming original series about a boy and a girl who found each other in a big world. 
-                Full of adventures, inside jokes, and endless love.
+            <h1 class="title-card">The Life of ShravyaTejesh</h1>
+            <div style="font-size: 1.2rem; margin: 15px 0; color: #aaa;">2026 | Season 1 | Soulmates</div>
+            <p style="max-width: 500px; line-height: 1.5; font-size: 1.1rem; margin-bottom: 25px;">
+                Our journey, captured one episode at a time. A story of laughter, love, and endless memories.
             </p>
-            <button class="btn-play" onclick="startCredits()"><span>▶</span> Play</button>
-        </div>
-
-        <div class="row">
-            <h2>Trending Now: Our Favorite Dates</h2>
-            <div class="thumbnail-container">
-                <img src="https://via.placeholder.com/300x160" alt="Memory 1">
-                <img src="https://via.placeholder.com/300x160" alt="Memory 2">
-                <img src="https://via.placeholder.com/300x160" alt="Memory 3">
-                <img src="https://via.placeholder.com/300x160" alt="Memory 4">
-                <img src="https://via.placeholder.com/300x160" alt="Memory 5">
-            </div>
+            <button class="btn-play" onclick="startCredits()">▶ Play</button>
         </div>
     </div>
 
     <div id="credits-screen">
         <div class="credits-wrapper">
+            
+            <img src="credits.png" class="credit-photo">
+
             <div class="credit-row"><div class="role">Directed by</div><div class="name">The Universe</div></div>
-            <div class="credit-row"><div class="role">Cast</div><div class="name">[Your Name] & [Partner's Name]</div></div>
+            <div class="credit-row"><div class="role">Starring</div><div class="name">ShravyaTejesh</div></div>
             <div class="credit-row"><div class="role">Written by</div><div class="name">Fate & Destiny</div></div>
-            <div class="credit-row"><div class="role">Produced by</div><div class="name">Patience & Support</div></div>
-            <div class="credit-row"><div class="role">Director of Photography</div><div class="name">Our Camera Rolls</div></div>
-            <div class="credit-row"><div class="role">Stunt Coordinators</div><div class="name">Our Playful Fights</div></div>
-            <div class="credit-row"><div class="role">Catering by</div><div class="name">Late Night Cravings</div></div>
-            <div class="credit-row"><div class="role">Executive Producers</div><div class="name">Our Shared Future</div></div>
-            <div class="credit-row"><div class="role">Chief Motivator</div><div class="name">Each Other's Hoodies</div></div>
+            <div class="credit-row"><div class="role">Director of photography</div><div class="name">Our camera rolls</div></div>
+            <div class="credit-row"><div class="role">Chief editor</div><div class="name">Our favorite memories</div></div>
+            <div class="credit-row"><div class="role">Wardrobe designer</div><div class="name">Each other's hoodies</div></div>
+            <div class="credit-row"><div class="role">Executive Producers</div><div class="name">Our Future Plans</div></div>
             
             <h1 style="color: var(--netflix-red); font-size: 3rem; margin-top: 100px;">To Be Continued...</h1>
         </div>
     </div>
 
     <script>
-        function startApp() {
-            document.getElementById('tudum').play();
-            document.getElementById('profile-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('profile-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-            }, 600);
-        }
-
-        function startCredits() {
-            document.getElementById('main-content').style.display = 'none';
-            document.getElementById('credits-screen').style.display = 'flex';
-            window.scrollTo(0, 0);
-        }
+        window.onload = function() { setTimeout(() => { document.getElementById('intro-loader').style.display = 'none'; document.getElementById('profile-screen').style.display = 'flex'; }, 3500); };
+        function startApp() { document.getElementById('tudum').play(); document.getElementById('profile-screen').style.opacity = '0'; setTimeout(() => { document.getElementById('profile-screen').style.display = 'none'; document.getElementById('main-content').style.display = 'block'; }, 600); }
+        function startCredits() { document.getElementById('main-content').style.display = 'none'; document.getElementById('credits-screen').style.display = 'flex'; }
     </script>
 </body>
 </html>
